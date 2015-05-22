@@ -15,8 +15,6 @@ import java.util.HashMap;
  * @author Reed
  *
  */
-//Note - JPasswordField will hide PW type in when GUI is added
-//TODO add permission tier for user, admin, etc.
 public class LoginServer {
 	private HashMap<String, BloomFilter> vals; //<Username, BloomFilter of password>
 	private String tempDir = System.getProperty("java.io.tmpdir"); //System's temporary directory
