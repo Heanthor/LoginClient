@@ -13,7 +13,6 @@ import java.util.HashMap;
  * _tempdir prints temporary directory
  * _list_users lists users currently stored.
  * @author Reed
- *
  */
 public class LoginServer {
 	private HashMap<String, BloomFilter> vals; //<Username, BloomFilter of password>
@@ -29,13 +28,14 @@ public class LoginServer {
 	}
 
 	/**
-	 * @param saveLocation - The location of the stored users list.
+	 * @param saveLocation - The location of the stored users list. This string must
+	 * have "users.ser" at the end.
 	 */
 	public LoginServer(String saveLocation) {
 		this.saveLocation = saveLocation;
 		vals = getFromFile(saveLocation);
 	}
-	
+
 	/**
 	 * Instead of loading from a file, supply a list from memory.
 	 * @param vals - The user list.
@@ -122,7 +122,7 @@ public class LoginServer {
 	 */
 	public boolean newUser(Credentials in) {
 		vals.put(in.getUsername(),
-				createFilter(100).storeValue(in.getPassword()));
+				in.getPassword());
 
 		return serialize(vals, saveLocation);
 	}
@@ -165,7 +165,7 @@ public class LoginServer {
 		} else { //Contains key
 			BloomFilter ret = vals.get(username);
 
-			if (ret.retrieve(in.getPassword())) { // Password is correct
+			if (ret.equals(in.getPassword())) { // Password is correct
 				return new AuthenticateResponse(AuthenticateResponse.RESPONSE_AUTHENTICATED);
 			} else { // Password is incorrect
 				return new AuthenticateResponse(AuthenticateResponse.RESPONSE_WRONG_PASSWORD);

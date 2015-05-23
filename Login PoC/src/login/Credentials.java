@@ -1,4 +1,7 @@
 package login;
+
+import filter.BloomFilter;
+
 /**
  * Container for user login information.
  * @author Reed
@@ -6,11 +9,16 @@ package login;
  */
 public class Credentials {
 	private String username;
-	private String password;
+	private BloomFilter password;
 
-	public Credentials(String username, String pw) {
+	public Credentials(String username, BloomFilter pw) {
 		this.username = username;
 		password = pw;
+	}
+
+	public Credentials(String username, String password) {
+		this.username = username;
+		this.password = LoginServer.createFilter(BloomFilter.DEFAULT_SIZE).storeValue(password);
 	}
 
 	/**
@@ -21,9 +29,9 @@ public class Credentials {
 	}
 
 	/**
-	 * @return the password.
+	 * @return the hashed password.
 	 */
-	protected String getPassword() {
+	protected BloomFilter getPassword() {
 		return password;
 	}
 }
