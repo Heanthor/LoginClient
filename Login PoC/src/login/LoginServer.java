@@ -18,13 +18,30 @@ import java.util.HashMap;
 public class LoginServer {
 	private HashMap<String, BloomFilter> vals; //<Username, BloomFilter of password>
 	private String tempDir = System.getProperty("java.io.tmpdir"); //System's temporary directory
+	private String saveLocation = tempDir + "users.ser"; //Default save location
 
 	/**
 	 * On creation, loads the user list into memory, whether from the present file, or
 	 * by creating a new one.
 	 */
 	public LoginServer() {
-		vals = getFromFile(tempDir + "users.ser");
+		vals = getFromFile(saveLocation);
+	}
+
+	/**
+	 * @param saveLocation - The location of the stored users list.
+	 */
+	public LoginServer(String saveLocation) {
+		this.saveLocation = saveLocation;
+		vals = getFromFile(saveLocation);
+	}
+	
+	/**
+	 * Instead of loading from a file, supply a list from memory.
+	 * @param vals - The user list.
+	 */
+	public LoginServer(HashMap<String, BloomFilter> vals) {
+		this.vals = vals;
 	}
 
 	/**
@@ -107,7 +124,7 @@ public class LoginServer {
 		vals.put(in.getUsername(),
 				createFilter(100).storeValue(in.getPassword()));
 
-		return serialize(vals, tempDir + "users.ser");
+		return serialize(vals, saveLocation);
 	}
 
 	/**
@@ -128,7 +145,7 @@ public class LoginServer {
 				deleteUsersFile();
 				return new AuthenticateResponse(AuthenticateResponse.RESPONSE_DEBUG);
 			} else if (username.equals("_tempdir")) { // Temporary directory location
-				System.out.println(tempDir + "users.ser");
+				System.out.println(saveLocation);
 				return new AuthenticateResponse(AuthenticateResponse.RESPONSE_DEBUG);
 			} else if (username.equals("_list_users")) { // User List
 				System.out.println("User List: ");
@@ -162,7 +179,7 @@ public class LoginServer {
 	 * @return True if file is deleted successfully, false otherwise.
 	 */
 	private boolean deleteUsersFile() {
-		File file = new File(tempDir + "users.ser");
+		File file = new File(saveLocation);
 
 		if (file.delete()) {
 			System.out.println("Users purged.");
