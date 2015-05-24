@@ -1,12 +1,15 @@
 package login;
 
+import java.io.Serializable;
+
 /**
  * A user encapsulates a set of Credentials, and a PermissionLevel
  * to designate their allowed permissions.
  * @author Reed
  *
  */
-public class User {
+public class User implements Serializable {
+	private static final long serialVersionUID = -439345683340920287L;
 	private int permission;
 	private Credentials info;
 	
