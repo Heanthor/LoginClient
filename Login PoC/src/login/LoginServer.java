@@ -118,13 +118,17 @@ public class LoginServer {
 	 * If the user was already in the list, this method should do nothing to the
 	 * database.
 	 * @param in - The Credentials object for the new user.
-	 * @return True if saving to file succeeds, false otherwise.
+	 * @return True if new user created, false if user already exists.
 	 */
 	public boolean newUser(Credentials in) {
-		vals.put(in.getUsername(),
-				in.getPassword());
-
-		return serialize(vals, saveLocation);
+		if (vals.put(in.getUsername(),
+				in.getPassword()) != null) {
+			serialize(vals, saveLocation);
+			
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
