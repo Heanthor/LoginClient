@@ -122,7 +122,7 @@ public class LoginServer {
 	 */
 	public boolean newUser(Credentials in) {
 		if (vals.put(in.getUsername(),
-				in.getPassword()) != null) {
+				in.getPassword()) == null) {
 			serialize(vals, saveLocation);
 			
 			return true;
