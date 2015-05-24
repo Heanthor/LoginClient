@@ -1,5 +1,7 @@
 package login;
 
+import java.io.Serializable;
+
 import filter.BloomFilter;
 
 /**
@@ -7,7 +9,8 @@ import filter.BloomFilter;
  * @author Reed
  *
  */
-public class Credentials {
+public class Credentials implements Serializable {
+	private static final long serialVersionUID = 2810723588689745498L;
 	private String username;
 	private BloomFilter password;
 
