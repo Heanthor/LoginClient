@@ -28,13 +28,7 @@ public class Credentials implements Serializable {
 	 * @return the username.
 	 */
 	public String getUsername() {
-		//The best place I could find to put this, clears register tag from username
-		if (username.length() > 10 && 
-				username.substring(0, 10).equals("$register$")) { 
-			return username.substring(10);
-		} else {
-			return username;
-		}
+		return username;
 	}
 
 	/**
