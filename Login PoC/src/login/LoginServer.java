@@ -95,22 +95,17 @@ public class LoginServer {
 	 * Saves the argument to the given file.
 	 * @param out - The HashMap to serialize.
 	 * @param fileName - The file to save the object to.
-	 * @return True if operation succeeds, false otherwise.
+	 * @throws IOException If file fails to write
 	 */
 	@SuppressWarnings("rawtypes")
-	private boolean serialize(HashMap out, String fileName) {
-		try {
-			FileOutputStream fout = new FileOutputStream(fileName);
-			ObjectOutputStream oos = new ObjectOutputStream(fout);   
+	private void serialize(HashMap out, String fileName) throws IOException {
 
-			oos.writeObject(out);
-			oos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+		FileOutputStream fout = new FileOutputStream(fileName);
+		ObjectOutputStream oos = new ObjectOutputStream(fout);   
 
-		return true;
+		oos.writeObject(out);
+		oos.close();
+
 	}
 
 	/**
@@ -119,12 +114,13 @@ public class LoginServer {
 	 * database.
 	 * @param in - The Credentials object for the new user.
 	 * @return True if new user created, false if user already exists.
+	 * @throws IOException If serialize fails
 	 */
-	public boolean newUser(Credentials in) {
+	public boolean newUser(Credentials in) throws IOException {
 		if (vals.put(in.getUsername(),
 				in.getPassword()) == null) {
 			serialize(vals, saveLocation);
-			
+
 			return true;
 		} else {
 			return false;

@@ -1,6 +1,9 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+
 import login.*;
 
 import org.junit.Test;
@@ -35,7 +38,7 @@ public class TestLogin {
 	}
 
 	@Test
-	public void testNewUser() {
+	public void testNewUser() throws IOException {
 		String username = "testUser";
 		String password = "test";
 
