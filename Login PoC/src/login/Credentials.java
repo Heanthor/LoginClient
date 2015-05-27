@@ -14,14 +14,24 @@ public class Credentials implements Serializable {
 	private String username;
 	private BloomFilter password;
 
-	public Credentials(String username, BloomFilter pw) {
-		this.username = username;
-		password = pw;
+	public Credentials(String username, BloomFilter pw) throws NameTooLongException {
+		if (username.length() > 60) {
+			throw new NameTooLongException("Username length of " + username.length() +
+					" exceeds maximum of length 60");
+		} else {
+			this.username = username;
+			password = pw;
+		}
 	}
 
-	public Credentials(String username, String password) {
+	public Credentials(String username, String password) throws NameTooLongException {
+		if (username.length() > 60) {
+			throw new NameTooLongException("Username length of " + username.length() +
+					" exceeds maximum of length 60");
+		} else {
 		this.username = username;
 		this.password = LoginServer.createFilter(BloomFilter.DEFAULT_SIZE).storeValue(password);
+		}
 	}
 
 	/**
