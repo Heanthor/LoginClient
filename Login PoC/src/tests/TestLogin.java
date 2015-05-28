@@ -10,7 +10,15 @@ import org.junit.Test;
 
 public class TestLogin {
 	LoginServer u = new LoginServer();
-	User heanthor = new User(PermissionLevel.ADMIN, new Credentials("Heanthor", "test"));
+	User heanthor;
+	
+	public TestLogin() {
+		try {
+			heanthor = new User(PermissionLevel.ADMIN, new Credentials("Heanthor", "test"));
+		} catch (NameTooLongException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/* Proof of concept on how this is meant to be used */
 	@Test
@@ -20,7 +28,7 @@ public class TestLogin {
 	}
 
 	@Test
-	public void testLoginWrongPassword() {
+	public void testLoginWrongPassword() throws NameTooLongException {
 		String username = "Heanthor";
 		String password = "wrong";
 
@@ -29,7 +37,7 @@ public class TestLogin {
 	}
 
 	@Test
-	public void testLoginUnknownUser() {
+	public void testLoginUnknownUser() throws NameTooLongException {
 		String username = "abcdx";
 		String password = "xxx";
 
@@ -38,7 +46,7 @@ public class TestLogin {
 	}
 
 	@Test
-	public void testNewUser() throws IOException {
+	public void testNewUser() throws IOException, NameTooLongException {
 		String username = "testUser";
 		String password = "test";
 
@@ -46,7 +54,7 @@ public class TestLogin {
 	}
 
 	@Test
-	public void testUserList() {
+	public void testUserList() throws NameTooLongException {
 		String username = "_list_users";
 		String password = "";
 
