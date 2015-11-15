@@ -1,8 +1,8 @@
 package login;
 
-import java.io.Serializable;
-
 import filter.BloomFilter;
+
+import java.io.Serializable;
 
 /**
  * Container for user login information.

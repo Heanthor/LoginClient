@@ -1,4 +1,5 @@
 package login;
+
 import filter.BloomFilter;
 import filter.IllegalSizeException;
 import hashes.*;
@@ -175,7 +176,6 @@ public class LoginServer {
 
 	/**
 	 * Deletes file located at path. Prints status to console.
-	 * @param path - Path to file to delete.
 	 * @return True if file is deleted successfully, false otherwise.
 	 */
 	private boolean deleteUsersFile() {
